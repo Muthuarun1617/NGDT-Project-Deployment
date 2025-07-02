@@ -1,54 +1,119 @@
-# React + TypeScript + Vite
+# 🌐 DevNGDTWebApp - Frontend Deployment with GitHub Actions & Azure
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Deploy Status](https://github.com/OWNER/REPO/actions/workflows/deploy.yml/badge.svg?branch=dev)
 
-Currently, two official plugins are available:
+Automated CI/CD pipeline for a **Vite-powered frontend application** using **GitHub Actions** and deployment to **Azure Web App**. This setup ensures efficient build, artifact management, logging, and automated deployment on every push to the `dev` branch.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🚀 Workflow: `deploy.yml`
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🔄 Trigger
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- On every push to the `dev` branch.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🛠️ Job Breakdown
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+### 📦 Build Job
+
+Runs on **Ubuntu** and performs the following:
+
+1. **Checkout Code**  
+   Fetches the latest code from the repository.
+
+2. **Set up Node.js**  
+   Uses Node.js version 18.
+
+3. **Install Dependencies**  
+   Runs `npm install`.
+
+4. **Build Vite App**  
+   Builds the app with `npm run build` and checks for the `dist` folder.
+
+5. **Debug Listing**  
+   Lists contents of the `dist/` folder.
+
+6. **Upload Artifacts**  
+   - Uploads the `dist/` folder as `build-artifacts`
+   - Uploads `build.log` as `build-logs`
+
+---
+
+### 🚚 Deploy Job
+
+Depends on `build` job completion and includes:
+
+1. **Checkout Code**  
+   Ensures fresh context.
+
+2. **Download Artifacts**  
+   Pulls `build-artifacts` and `build-logs`.
+
+3. **Show Logs**  
+   Outputs build logs for visibility.
+
+4. **Install PM2**  
+   Sets up PM2 to serve static files.
+
+5. **Serve App with PM2**  
+   Serves `./dist` folder as SPA using PM2.
+
+6. **Deploy to Azure**  
+   Deploys the built app to Azure Web App `DevNGDTWebApp` using GitHub secret `AZURE_PUBLISH_PROFILE`.
+
+---
+
+## 🖼 Screenshots
+
+### ✔️ Vite Build Success
+
+![Features-of-Vite-JS-2 0](https://github.com/user-attachments/assets/471472b7-2feb-4887-afb8-0869c6967132)
+
+### ☁️ Azure Web Deployment
+
+![azure web development](https://github.com/user-attachments/assets/0bc97c17-e190-44b2-9a96-b142a2c3da71)
+
+
+---
+
+## 📋 Prerequisites
+
+- Azure Web App created and configured
+- GitHub secret:
+  - `AZURE_PUBLISH_PROFILE` (from Azure portal)
+- Node.js 18 configured in GitHub Actions
+- Vite configured correctly (`vite.config.js`)
+
+---
+
+## 💡 Best Practices
+
+- Add branch protection to `dev` for PR-based changes.
+- Use status checks to prevent merge until CI passes.
+- Store build logs to help debug deployment failures.
+- Use PM2 for simple SPA serving — for production, consider Azure Static Web Apps or CDN fronting.
+
+---
+
+## 👥 Contributing
+
+1. Fork the repo
+2. Create a feature branch (`feature/your-feature`)
+3. Push and open a PR to `dev`
+4. CI/CD will handle the rest!
+
+---
+
+## 📜 License
+
+Licensed under the [MIT License](LICENSE).
+
+---
+
+## 📫 Support
+
+Open an issue or reach out if you encounter problems or have suggestions!
+
+---
