@@ -1,6 +1,7 @@
 # 🌐 DevNGDTWebApp - Frontend Deployment with GitHub Actions & Azure
 
-![Deploy Status](https://github.com/OWNER/REPO/actions/workflows/deploy.yml/badge.svg?branch=dev)
+![deploy](https://github.com/user-attachments/assets/77c46148-3279-4816-ada3-a6b9d1ee50c2)
+
 
 Automated CI/CD pipeline for a **Vite-powered frontend application** using **GitHub Actions** and deployment to **Azure Web App**. This setup ensures efficient build, artifact management, logging, and automated deployment on every push to the `dev` branch.
 
@@ -115,5 +116,12 @@ Licensed under the [MIT License](LICENSE).
 ## 📫 Support
 
 Open an issue or reach out if you encounter problems or have suggestions!
+
+---
+
+## CONTACT:
+
+[![LinkedIn](https://img.shields.io/badge/-LinkedIn-blue?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/muthuarun/)
+[![GitHub](https://img.shields.io/badge/-GitHub-black?style=flat-square&logo=github)](https://github.com/Muthuarun1617)
 
 ---
